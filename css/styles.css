@@ -197,6 +197,7 @@ a.abtn:hover {
 
 .note-grid {
     display: inline-grid;
+    min-width: 400px;
     /* grid-template-areas:
      'switch note switch note switch note'
      'switch note switch note switch note'
