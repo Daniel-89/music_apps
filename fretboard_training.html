@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Pacifico&family=Quicksand&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
-
+    <script src="src/simpleTones.js-master/simpleTones.js"></script>
 </head>
 
 <body>
@@ -40,8 +40,119 @@
 
     <div class="middle-container color1">
 
-        <h2>Under construction..</h2>
-        <img src="images/fretboard icon2.png" alt="">
+        <h2>Fretboard training</h2>
+        <div class="grid-1x2">
+            <div class="note-grid">
+                <!-- <div class="note-grid-col"> -->
+                <label class="switch">
+                    <input type="checkbox" id="0" checked>
+                    <span class="switch-slider round"></span>
+                </label>
+                <h4 class="note-grid-note">C</h4>
+
+
+
+                <label class="switch">
+                    <input type="checkbox" id="1" checked>
+                    <span class="switch-slider round"></span>
+                </label>
+                <h4 class="note-grid-note">C#/Db</h4>
+
+
+
+                <label class="switch">
+                    <input type="checkbox" id="2" checked>
+                    <span class="switch-slider round"></span>
+                </label>
+                <h4 class="note-grid-note">D</h4>
+
+
+
+                <label class="switch">
+                    <input type="checkbox" id="3" checked>
+                    <span class="switch-slider round"></span>
+                </label>
+                <h4 class="note-grid-note">D#/Eb</h4>
+
+
+
+                <label class="switch">
+                    <input type="checkbox" id="4" checked>
+                    <span class="switch-slider round"></span>
+                </label>
+                <h4 class="note-grid-note">E</h4>
+
+
+
+                <label class="switch">
+                    <input type="checkbox" id="5" checked>
+                    <span class="switch-slider round"></span>
+                </label>
+                <h4 class="note-grid-note">F</h4>
+
+
+
+                <label class="switch">
+                    <input type="checkbox" id="6" checked>
+                    <span class="switch-slider round"></span>
+                </label>
+                <h4 class="note-grid-note">F#/Gb</h4>
+
+
+
+                <label class="switch">
+                    <input type="checkbox" id="7" checked>
+                    <span class="switch-slider round"></span>
+                </label>
+                <h4 class="note-grid-note">G</h4>
+
+
+
+                <label class="switch">
+                    <input type="checkbox" id="8" checked>
+                    <span class="switch-slider round"></span>
+                </label>
+                <h4 class="note-grid-note">G#/Ab</h4>
+
+
+
+                <label class="switch">
+                    <input type="checkbox" id="9" checked>
+                    <span class="switch-slider round"></span>
+                </label>
+                <h4 class="note-grid-note">A</h4>
+
+
+
+                <label class="switch">
+                    <input type="checkbox" id="10" checked>
+                    <span class="switch-slider round"></span>
+                </label>
+                <h4 class="note-grid-note">A#/Bb</h4>
+
+
+
+                <label class="switch">
+                    <input type="checkbox" id="11" checked>
+                    <span class="switch-slider round"></span>
+                </label>
+                <h4 class="note-grid-note">B</h4>
+
+            </div>
+
+            <p id="display_note" class="note">
+                G#
+            </p>
+
+        </div>
+
+        <div class="slidecontainer">
+            <input type="range" min="0.3" max="10" value="1" class="slider" id="myRange" style="width:40%;">
+            <h4 style="display:inline-block;text-align:left;width:15%;margin-left:7px;"><span id="demo"></span> seconds</h4>
+            <input type="button" name="" value="Play" class="btn" id="play_btn" onclick="play()">
+            <input type="button" name="" value="Stop" class="btn" id="stop_btn" onclick="stop()" disabled>
+        </div>
+
     </div>
 
 
@@ -53,6 +164,78 @@
             width: '1em',
             height: '1em'
         })
+    </script>
+
+    <script>
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = slider.value;
+        document.getElementById("myRange").step = "0.01";
+
+        slider.oninput = function() {
+            output.innerHTML = this.value;
+        }
+    </script>
+
+    <script type="text/javascript">
+        notes = [
+            ['C', 'C'],
+            ['C#', 'Db'],
+            ['D', 'D'],
+            ['D#', 'Eb'],
+            ['E', 'E'],
+            ['F', 'F'],
+            ['F#', 'Gb'],
+            ['G', 'G'],
+            ['G#', 'Ab'],
+            ['A', 'A'],
+            ['A#', 'Bb'],
+            ['B', 'B']
+        ];
+
+        play_bool = true;
+
+        function random(min, max) {
+            return Math.floor(Math.random() * (Math.floor(max) - Math.floor(min)) + Math.floor(min));
+        }
+
+        async function stop(){
+            play_bool = false;
+            document.getElementById("play_btn").disabled = false;
+            document.getElementById("stop_btn").disabled = true;
+        }
+
+        async function play() {
+
+            document.getElementById("play_btn").disabled = true;
+            document.getElementById("stop_btn").disabled = false;
+            play_bool  = true;
+
+            while (play_bool) {
+                valid_notes = []
+                var i;
+                for (i = 0; i < notes.length; i++) {
+                    document.getElementById(i.toString()).checked;
+                    if (document.getElementById(i.toString()).checked) {
+                        valid_notes.push(notes[i])
+                    }
+                }
+
+                n_nota = random(0, valid_notes.length);
+                n_alteration = random(0, 2);
+                n_octave = random(4, 5);
+
+                time = document.getElementById('myRange').value
+                console.log(time)
+
+                playTone(valid_notes[n_nota][n_alteration] + n_octave.toString(),"sine", 1)
+                document.getElementById("display_note").innerHTML = valid_notes[n_nota][n_alteration]
+                console.log(valid_notes[n_nota][n_alteration] + n_octave.toString());
+
+                // a+=1;
+                await new Promise(r => setTimeout(r, time*1000));
+            }
+        }
     </script>
 
 
