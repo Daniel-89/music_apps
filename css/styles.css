@@ -73,7 +73,7 @@ a.abtn:hover {
     width: 100%;
 }
 
-.middle-container{
+.middle-container {
     padding-top: 1px;
     padding-bottom: 100px;
 }
@@ -133,7 +133,6 @@ a.abtn:hover {
 .color2 {
     background-color: var(--naranjo);
     background: linear-gradient(to bottom, var(--naranjo) 0%, #d9741c 100%);
-
 }
 
 .color3 {
@@ -231,14 +230,20 @@ p.note {
     margin: auto;
 }
 
-.grid-1x2 {
-    display: grid;
-    grid-template-columns: 60% 40%;
-    text-align: center;
-    gap: 20px;
-    width: 60%;
-    margin: auto;
-    /* padding: 0 20% 0 20%; */
+@media screen and (min-width: 990px) {
+    .grid-1x2 {
+        display: grid;
+        grid-template-columns: 60% 40%;
+        text-align: center;
+        /* background-color: blue; */
+        gap: 20px;
+        width: 60%;
+        margin: auto;
+        /* padding: 0 20% 0 20%; */
+    }
+
+
+
 }
 
 /************************** TOGGLE SWITCH ***************************/
@@ -361,6 +366,7 @@ input:checked+.switch-slider:before {
     cursor: pointer;
     text-align: center;
 }
+
 
 .btn:hover {
     background: #B15D15;
