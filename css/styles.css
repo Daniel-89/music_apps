@@ -89,6 +89,10 @@ table, th, td {
 th{
     cursor: pointer;
 }
+
+tr:hover{
+    background-color: #c4b99d
+}
 /************* CLASS SELECTORS **************/
 .top-container {
     width: 100%;
