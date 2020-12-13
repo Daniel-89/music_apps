@@ -68,6 +68,26 @@ a.abtn:hover {
     width: 100%
 }
 
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  white-space: pre-line;
+}
+
+.table-wrapper{
+  overflow-y: scroll;
+  height: 150px;
+}
+
+.table-wrapper th{
+    position: sticky;
+    top: 0;
+    background-color: var(--crema)
+}
+
+th{
+    cursor: pointer;
+}
 /************* CLASS SELECTORS **************/
 .top-container {
     width: 100%;

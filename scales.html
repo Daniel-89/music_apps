@@ -3,13 +3,14 @@
 
 <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Apps</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="favicon.ico">
+    <link rel="icon" href="images/notas.ico">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Pacifico&family=Quicksand&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
+
 
 </head>
 
@@ -41,7 +42,49 @@
     <div class="middle-container color1">
 
         <h2>Under construction..</h2>
-        <img src="images/scale icon2.png" alt="">
+        <div class="" style="padding:20px;">
+            <input type="number" id="dif" min="1" onchange="updateTable()" value="12">
+            <!-- <button type="button" id="dif-button" onclick="updateTable()">Update Table</button> -->
+        </div>
+        <table id="scales" class="table-wrapper" style="width:80%;margin:auto;font-family:monospace;;">
+            <!-- <p id="scales" style="font-family: monospace;text-align:left;line-height:2;">1 - 2 - 3 4 - 5 - 6 - 7 <br /></p> -->
+            <thead style="">
+                <tr>
+                    <th id="th0" value="0">1</th>
+                    <th id="th1" value="0">b2</th>
+                    <th id="th2" value="0">2</th>
+                    <th id="th3" value="0">b3</th>
+                    <th id="th4" value="0">3</th>
+                    <th id="th5" value="0">4</th>
+                    <th id="th6" value="0">b5</th>
+                    <th id="th7" value="0">5</th>
+                    <th id="th8" value="0">b6</th>
+                    <th id="th9" value="0">6</th>
+                    <th id="th10" value="0">b7</th>
+                    <th id="th11" value="0">7</th>
+                    <th>Diff</th>
+                    <th>Seed</th>
+                </tr>
+            </thead>
+            <tbody id="scales-body">
+                <!-- <tr>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>Major</td>
+                </tr> -->
+            </tbody>
+        </table>
     </div>
 
 
@@ -53,6 +96,130 @@
             width: '1em',
             height: '1em'
         })
+    </script>
+    <script src="src/compare.js"></script>
+    <script type="text/javascript"> //genTable
+        minDif_init = 12
+
+        function genTable(all_combinations, minDif = minDif_init) {
+            // console.log(minDif);
+            document.getElementById("scales-body").innerHTML = ''
+            for (j = 0; j < 12 * all_scales.length; j++) {
+
+                if (all_combinations['n_notcommon'][j] <= minDif) {
+                    text = document.getElementById("scales").innerHTML
+
+                    newRow_scale = document.createElement('tr')
+                    newRow_scale.setAttribute('id', 'scale' + String(j));
+
+                    // newRow_harmony = document.createElement('tr')
+                    // newRow_harmony.setAttribute('id', 'harmony' + String(j));
+
+                    table = document.getElementById("scales-body")
+                    table.appendChild(newRow_scale);
+                    // table.appendChild(newRow_harmony);
+
+                    notes = all_combinations['scales'][j]
+                    aux = 0
+
+                    h = all_combinations['harmony'][j]
+                    index = all_combinations['notes_index'][j]
+                    text = ''
+
+                    // text = text + ' <br><br />'
+                    // document.getElementById("scales").innerHTML = text
+
+                    for (n of notes) {
+                        // console.log(n)
+                        id_scale = 'scale' + String(j)
+                        new_Note = document.createElement('td')
+                        new_Note.setAttribute('id', 'scale' + String(j) + '-' + String(aux))
+
+                        document.getElementById(id_scale).appendChild(new_Note);
+                        // newText_note = document.createTextNode(String(n));
+                        // document.getElementById('scale' + String(j) + '-' + String(aux)).appendChild(newText_note);
+
+                        // id_harmony = 'harmony' + String(j)
+                        // new_chord = document.createElement('td')
+                        // new_chord.setAttribute('id', 'harmony' + String(j) + '-' + String(aux))
+                        //
+                        // document.getElementById(id_harmony).appendChild(new_chord);
+
+                        aux++
+                    }
+
+                    for (k = 0; k < h.length; k++) {
+
+                        intervals = h[k][0].split(' ')
+                        td = document.getElementById('scale' + String(j) + '-' + String(index[k]))
+                        td.setAttribute('style', 'background-color:' + all_combinations['color'][j] + ';')
+
+                        if (intervals[0] == '+') {
+                            newText_chord = document.createTextNode(degrees[index[k]] + intervals[1]);
+                            // console.log(intervals[1]);
+                            td.appendChild(newText_chord);
+
+                        } else if (intervals[0] == '-') {
+                            newText_chord = document.createTextNode(min_deg[index[k]] + intervals[1]);
+                            td.appendChild(newText_chord);
+
+                        }
+                    }
+
+                    id_scale = 'scale' + String(j)
+                    new_dif = document.createElement('td')
+                    new_dif.setAttribute('id', 'dif' + String(j))
+
+                    n_notcommon = all_combinations['n_notcommon'][j]
+                    document.getElementById(id_scale).appendChild(new_dif);
+                    newText_dif = document.createTextNode(n_notcommon);
+                    document.getElementById('dif' + String(j)).appendChild(newText_dif);
+
+                    id_scale = 'scale' + String(j)
+                    new_seed = document.createElement('td')
+                    new_seed.setAttribute('id', 'seed' + String(j))
+
+                    seed = all_combinations['seed'][j]
+                    document.getElementById(id_scale).appendChild(new_seed);
+                    newText_seed = document.createTextNode(seed);
+                    document.getElementById('seed' + String(j)).appendChild(newText_seed);
+
+                }
+
+            }
+        }
+    </script>
+    <script type="text/javascript"> //createTable
+        for (i = 0; i < 12; i++)
+            // document.getElementById("th"+String(i)).addEventListener("click", createCompareWith("th"+String(i)));
+            document.getElementById("th" + String(i)).setAttribute('onclick', 'createTable("th' + String(i) + '")')
+
+        function createTable(id) {
+            selectedNote = document.getElementById(id);
+            selectedNote.setAttribute('value', !parseInt(selectedNote.getAttribute('value')) ? 1 : 0)
+            if (selectedNote.getAttribute('value') == 1) {
+                selectedNote.setAttribute('style', 'background-color:gray')
+            } else {
+                selectedNote.setAttribute('style', 'background-color:none')
+            }
+
+            compare_with1 = []
+            for (i = 0; i < 12; i++)
+                // document.getElementById("th"+String(i)).addEventListener("click", createCompareWith("th"+String(i)));
+                compare_with1.push(parseInt(document.getElementById("th" + String(i)).getAttribute('value')))
+
+            compare(compare_with1)
+            genTable(all_combinations)
+
+            // selectedNote.setAttribute('value',!true)
+        }
+    </script>
+    <script type="text/javascript"> //updateTable
+        function updateTable() {
+            minDif_init = document.getElementById("dif").value
+            // console.log('asd');
+            genTable(all_combinations, minDif = minDif_init)
+        }
     </script>
 
 
